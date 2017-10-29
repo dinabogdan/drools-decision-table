@@ -1,0 +1,76 @@
+//created on: Oct 27, 2017
+package myrules
+
+//list any import classes here.
+import com.sample.freesoft.person.Person
+import com.sample.freesoft.person.MaritalStatus
+
+//declare any global variables here
+
+salience 35;
+rule "10% tax rate"
+
+    when
+        $person: (Person(status == MaritalStatus.SINGLE, income > 0 && income < 83850) 
+        					or Person(status  == MaritalStatus.MARRIED_FILING_JOINTLY,  income > 0 && income < 16700)
+        					or Person(status == MaritalStatus.MARRIED_FILING_SEPARATELY, income > 0 && income < 8350)
+        					or Person(status == MaritalStatus.HEAD_OF_HOUSEHOLD, income > 0 && income < 11950))
+    then
+        $person.setTaxRate(10);
+end
+
+
+salience 33;
+rule "15% tax rate"
+	when 
+		$person: (Person(status == MaritalStatus.SINGLE, income > 8351 && income < 33950) 
+    					or Person(status == MaritalStatus.MARRIED_FILING_JOINTLY,  income > 16701 && income < 67900)
+    					or Person(status == MaritalStatus.MARRIED_FILING_SEPARATELY, income > 8351 && income < 33950)
+    					or Person(status == MaritalStatus.HEAD_OF_HOUSEHOLD, income > 11951 && income < 45500))
+	then
+	 	$person.setTaxRate(15);
+end
+
+salience 28;
+rule "25% tax rate"
+	when 
+		$person: (Person(status == MaritalStatus.SINGLE, income > 33951 && income < 82250)
+					or Person(status == MaritalStatus.MARRIED_FILING_JOINTLY, income > 67901 && income < 137050) 
+					or Person(status == MaritalStatus.MARRIED_FILING_SEPARATELY, income  > 33951 && income < 68525) 
+					or Person(status == MaritalStatus.HEAD_OF_HOUSEHOLD, income > 45501 && income < 117450))
+	then
+		$person.setTaxRate(25);
+end
+
+salience 25;
+rule "28% tax rate"
+	when
+		$person: (Person(status == MaritalStatus.SINGLE, income > 82251 && income < 171550) 
+					or Person(status == MaritalStatus.MARRIED_FILING_JOINTLY, income > 137051 &&  income < 208850)
+					or Person(status == MaritalStatus.MARRIED_FILING_SEPARATELY, income > 68526 && income < 104425)
+					or Person(status == MaritalStatus.HEAD_OF_HOUSEHOLD, income > 117452 && income < 190200))
+	then
+		$person.setTaxRate(28);
+end;
+
+salience 15;
+rule "33% tax rate"
+	when
+		$person: (Person(status == MaritalStatus.SINGLE, income > 171551 && income < 372950) 
+					or Person(status == MaritalStatus.MARRIED_FILING_JOINTLY, income > 208851 &&  income < 372950)
+					or Person(status == MaritalStatus.MARRIED_FILING_SEPARATELY, income > 104426 && income < 186475)
+					or Person(status == MaritalStatus.HEAD_OF_HOUSEHOLD, income > 190201 && income < 372950))
+	then
+		$person.setTaxRate(33);
+end;
+
+salience 10;
+rule "35% tax rate"
+	when
+		$person: (Person(status == MaritalStatus.SINGLE, income > 372951) 
+					or Person(status == MaritalStatus.MARRIED_FILING_JOINTLY, income > 372951)
+					or Person(status == MaritalStatus.MARRIED_FILING_SEPARATELY, income > 186476)
+					or Person(status == MaritalStatus.HEAD_OF_HOUSEHOLD, income > 372951))
+	then
+		$person.setTaxRate(35);
+end;
